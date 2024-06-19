@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longest Increasing Path Calculator</title>
+</head>
+<body>
+    <h1>Longest Increasing Path Calculator</h1>
+    <form id="matrixForm">
+        <label for="matrixInput">Enter Matrix (2D array):</label><br>
+        <textarea id="matrixInput" name="matrix" rows="5" cols="50"></textarea><br><br>
+        <button type="submit">Calculate Longest Path</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("matrixForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let matrix = document.getElementById("matrixInput").value.trim();
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'matrix=' + encodeURIComponent(matrix)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML = `<p>Longest Increasing Path Length: ${data.result}</p>`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
